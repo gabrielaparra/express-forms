@@ -57,10 +57,11 @@ app.get('/login', (request, response, next) => {
 
 app.post('/check-login', (request, response, next) => {
   // input name = "emailValue"
-  const userEmail = "request.body.emailValue";
+  const userEmail = request.body.emailValue;
   // input name = "passwordValue"
-  const userPassword = "request.body.passwordValue";
+  const userPassword = request.body.passwordValue;
 
+  //AUTHENTICATION PROCESS
   if (userEmail === "a@a.a" && userPassword === "swordfish") {
     response.render('welcome-view.ejs');
   } else {
