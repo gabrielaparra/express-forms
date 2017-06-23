@@ -1,7 +1,9 @@
 const express = require('express');
-const expressLayouts = require('express-ejs-layouts');
-
 const app = express();
+const expressLayouts = require('express-ejs-layouts');
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // requires ejs as the view engine
 app.set('view engine', 'ejs');
@@ -15,6 +17,8 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 app.use(expressLayouts);
+
+
 
 // telling express that the layout is the file layout.ejs
 // OPTIONAL, we only have to do this if we call the layout file differently
@@ -52,7 +56,16 @@ app.get('/login', (request, response, next) => {
 });
 
 app.post('/check-login', (request, response, next) => {
-  response.render('go-away-view.ejs');
+  // input name = "emailValue"
+  const userEmail = "request.body.emailValue";
+  // input name = "passwordValue"
+  const userPassword = "request.body.passwordValue";
+
+  if (userEmail === "a@a.a" && userPassword === "swordfish") {
+    response.render('welcome-view.ejs');
+  } else {
+    response.render('go-away-view.ejs');
+  }
 });
 
 
