@@ -13,12 +13,27 @@ app.set('view engine', 'ejs');
 // with a different name
 // app.set('views', 'views');
 
+// Morgan middleware
+const morgan = require('morgan');
+
+// console.log information about the connection
+// The dev level logs the :method, :url, :status, :response-time,
+// and content-length.
+app.use(morgan('dev'));
+
+app.use((request, response, next) => {
+  console.log('Our middleware');
+
+  req.pizza = 'pizza';
+
+  //move on to the next step, without this the page will hang forever 
+  next();
+});
+
 // telling express to use the static files in the public folder
 app.use(express.static('public'));
 
 app.use(expressLayouts);
-
-
 
 // telling express that the layout is the file layout.ejs
 // OPTIONAL, we only have to do this if we call the layout file differently
@@ -32,6 +47,9 @@ app.get('/', (request, response, next) => {
 });
 
 app.get('/search', (request, response, next) => {
+  console.log('In the /search route', req.pizza);
+  // comes from the middleware on line 27
+
   response.render('search-form-view.ejs');
 });
 
